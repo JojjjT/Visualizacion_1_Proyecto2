@@ -1,0 +1,220 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{caption}
+\captionsetup[table]{skip=6pt}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Propuesta --- Proyecto 2},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Propuesta --- Proyecto 2}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\textbf{Visualización reproducible en Python · Visualización I · Quinto
+Semestre 2026}
+
+\textbf{Equipo:} Equipo 7 --- Joshua Trujillo y Nicolás Figueroa
+\textbar{} \textbf{Fecha:} 12 de octubre de 2026
+
+\textbf{Docentes:} Adriana Pineda -- Paola Moreno \textbar{}
+\textbf{Entrega del proyecto:} 26 de octubre de 2026
+
+\section{1. Audiencia técnica
+específica}\label{audiencia-tuxe9cnica-especuxedfica}
+
+\textbf{Destinatario:} unidad de investigación comparativa sobre
+determinantes del bienestar de una organización internacional (por
+ejemplo, el grupo de investigación del PNUD o del Banco Mundial que
+estudia indicadores de desarrollo y calidad de vida).
+
+\textbf{Interés en la problemática:} este equipo necesita identificar de
+manera fundamentada y reproducible qué combinaciones de condiciones
+---PIB per cápita, apoyo social, esperanza de vida saludable, libertad,
+generosidad y percepción de corrupción--- se asocian con altos niveles
+de bienestar reportado, y en qué medida esas condiciones no alcanzan a
+explicar la evaluación de vida de algunos países. El resultado orienta
+futuras investigaciones sobre los determinantes explicados y no
+explicados del bienestar y sirve como base verificable para estudios
+comparados.
+
+\section{2. Pregunta analítica}\label{pregunta-analuxedtica}
+
+\begin{quote}
+\textbf{¿Qué «recetas» de bienestar predominan entre los países con
+mayor y menor evaluación de vida según el World Happiness Report 2024, y
+en qué medida el componente no explicado (Distopía + residual) altera o
+cuestiona esas recetas?}
+
+Subpreguntas de apoyo:
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  ¿Qué combinación de los seis indicadores explicativos caracteriza a
+  los países en los terciles superior e inferior del ladder score?
+\item
+  ¿Qué países presentan el componente Dystopia + residual más alto y qué
+  tienen en común, sugiriendo que las variables disponibles no bastan
+  para explicar su bienestar?
+\item
+  ¿Los países atípicos respecto de su «receta» esperada concentran altos
+  o bajos niveles de residual, lo que indicaría que la explicación está
+  incompleta?
+\end{enumerate}
+
+\section{3. Variables que se
+emplearán}\label{variables-que-se-emplearuxe1n}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Variable (archivo oficial)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Significado}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Uso previsto}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Country name & País & Identificación y anotaciones en gráficos \\
+Ladder score & Evaluación de vida (0--10) & Variable de interés / eje de
+orden \\
+upperwhisker / lowerwhisker & Intervalos del ladder score & Bandas de
+incertidumbre (referencia) \\
+Explained by: Log GDP per capita & Contribución del PIB per cápita &
+Dimensión 1 de la «receta» \\
+Explained by: Social support & Contribución del apoyo social & Dimensión
+2 de la «receta» \\
+Explained by: Healthy life expectancy & Contribución de la esperanza de
+vida saludable & Dimensión 3 de la «receta» \\
+Explained by: Freedom to make life choices & Contribución de la libertad
+& Dimensión 4 de la «receta» \\
+Explained by: Generosity & Contribución de la generosidad & Dimensión 5
+de la «receta» \\
+Explained by: Perceptions of corruption & Contribución de la percepción
+de corrupción & Dimensión 6 de la «receta» \\
+Dystopia + residual & Componente residual no explicado & Eje central de
+la subpregunta 2 \\
+\end{longtable}
+}
+
+\textbf{Criterio de selección:} se emplean las variables numéricas
+disponibles en el archivo oficial WHR24\_Data\_Figure\_2.1.xls. No se
+crearán indicadores derivados salvo la clasificación en terciles del
+ladder score (pandas qcut, q=3), cuyo criterio se documentará en el
+notebook. Los tres países con valores faltantes (Bahrain, Tajikistan y
+State of Palestine) se conservarán y se excluirán explícitamente solo en
+las visualizaciones que lo requieran.
+
+\section{4. Plan de visualizaciones
+(anteproyecto)}\label{plan-de-visualizaciones-anteproyecto}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{\#}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Visualización}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Propósito analítico}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Seaborn 1 & Distribución del ladder score y del residual & Forma global
+y extremos \\
+Seaborn 2 & Boxplot de los 6 indicadores por tercil de bienestar &
+Comparación de «recetas» \\
+Seaborn 3 & Heatmap: composición relativa (\%) de indicadores por grupo
+& Perfil de receta por grupo \\
+Seaborn 4 & Residual (Distopía + residual) vs. ladder score & Qué queda
+sin explicar \\
+Plotly 1 & Scatter interactivo: indicadores vs. ladder, tamaño =
+residual & Explorar atípicos con hover \\
+Plotly 2 & Barras top-15 con selector de indicador y color por tercil &
+Profundizar por dimensión \\
+\end{longtable}
+}
+
+\section{5. Coherencia esperada}\label{coherencia-esperada}
+
+audiencia (unidad de investigación comparativa) ⇒ pregunta (recetas de
+bienestar y componente no explicado) ⇒ variables (seis indicadores +
+residual + ladder score) ⇒ preparación (renombre documentado, terciles,
+manejo de faltantes) ⇒ visualizaciones (composición por grupos,
+perfiles, residual, atípicos) ⇒ interpretación escrita tras cada gráfico
+⇒ conclusiones (qué recetas predominan y qué queda sin explicar).
+
+\textbf{Estado:} ☐ Borrador ☑ Enviado para aprobación ☐ Aprobado
+
+\end{document}

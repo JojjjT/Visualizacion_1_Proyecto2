@@ -1,0 +1,276 @@
+% Propuesta — Proyecto 2 · Visualización I · Equipo 7
+% Estilo académico (artículo) — sin colores ni decoración
+% Compilar: pdflatex Propuesta_Equipo7.tex (2 pasadas)
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+
+% --- Estructura académica: secciones numeradas en negrita, sin color ---
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setcounter{secnumdepth}{2}
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-1.8ex \@plus -0.5ex \@minus -0.2ex}%
+  {0.9ex \@plus0.2ex}%
+  {\normalfont\large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-1.5ex \@plus -0.4ex \@minus -0.2ex}%
+  {0.7ex \@plus0.2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+% Tablas académicas (sin líneas verticales, booktabs)
+\captionsetup{font=small,labelfont=bf}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{document}
+
+% ---------------- Portada académica ----------------
+\begin{center}
+{\LARGE\bfseries Propuesta de investigación --- Proyecto 2}\\[1.2em]
+{\large Visualización reproducible en Python}\\[0.6em]
+{\large Curso de Visualización I · Quinto Semestre de 2026}\\[1.6em]
+{\large Joshua Trujillo y Nicolás Figueroa}\\[0.3em]
+{\large (Equipo~7)}\\[1.6em]
+{\normalsize Docentes: Adriana Pineda y Paola Moreno}\\[0.3em]
+{\normalsize Universidad Externado de Colombia}\\[0.3em]
+{\normalsize 12 de octubre de 2026}
+\end{center}
+
+\vspace{1.5em}
+\noindent\textbf{Entrega máxima del proyecto:} 26 de octubre de 2026.\\
+\textbf{Estado de la propuesta:} enviada para aprobación docente.
+\vspace{0.8em}
+
+\hrule
+\vspace{1em}
+
+% ---------------- 1 ----------------
+\section{Audiencia técnica específica}
+
+\textbf{Destinatario.} Unidad de investigación comparativa sobre determinantes del
+bienestar de una organización internacional (p.\ ej., el grupo de investigación
+sobre desarrollo humano y calidad de vida del PNUD o del Banco Mundial).
+
+\textbf{Interés en la problemática.} El equipo requiere identificar, de manera
+fundamentada y reproducible, qué combinaciones de condiciones ---PIB per cápita,
+apoyo social, esperanza de vida saludable, libertad, generosidad y percepción de
+corrupción--- se asocian con niveles altos de bienestar reportado, y en qué medida
+dichas condiciones no alcanzan a explicar la evaluación de vida de algunos países.
+Los resultados orientan investigaciones posteriores sobre los determinantes
+explicados y no explicados del bienestar y ofrecen una base verificable para
+estudios comparados.
+
+% ---------------- 2 ----------------
+\section{Pregunta analítica}
+
+\begin{quote}
+\textbf{¿Qué «recetas» de bienestar predominan entre los países con mayor y menor
+evaluación de vida según el \emph{World Happiness Report} 2024, y en qué medida el
+componente no explicado (Distopía + residual) altera o cuestiona dichas recetas?}
+\end{quote}
+
+\textbf{Subpreguntas.}
+\begin{enumerate}[leftmargin=1.6em, itemsep=0.25em]
+  \item ¿Qué combinación de los seis indicadores $c_{i,k}$ caracteriza a los
+        países de los terciles superior e inferior del \emph{ladder score} $L_i$?
+  \item ¿Qué países presentan el componente $D_i$ (\texttt{Dystopia + residual})
+        más alto, y qué tienen en común, sugiriendo que las variables disponibles
+        no bastan para explicar su bienestar?
+  \item ¿Los países atípicos respecto de su «receta» esperada concentran valores
+        elevados o reducidos del residual, lo que indicaría una explicación
+        incompleta?
+\end{enumerate}
+
+% ---------------- 3 ----------------
+\section{Definición de «receta de bienestar»}
+
+\textbf{Definición operativa.} Una \emph{«receta de bienestar»} es el perfil
+cuantitativo de contribuciones con que un país alcanza su evaluación de vida: la
+combinación relativa de los seis indicadores explicativos del \emph{World Happiness
+Report}, esto es, cuánto aporta cada dimensión al \emph{ladder score} nacional.
+Dos países pueden alcanzar puntuaciones similares con recetas distintas ---por
+ejemplo, uno sustentado en PIB y esperanza de vida, otro en apoyo social y
+libertad---. Estudiar las recetas implica comparar qué dimensiones predominan en
+los países de mayor y menor bienestar, y no únicamente sus puntuaciones absolutas.
+
+\textbf{Formalización.} Sea $L_i$ el \emph{ladder score} del país $i$. Su receta
+es el vector de contribuciones
+\begin{equation}
+  R_i \;=\; \bigl(\, c_{i,\text{PIB}},\; c_{i,\text{social}},\;
+  c_{i,\text{vida}},\; c_{i,\text{libertad}},\; c_{i,\text{generosidad}},\;
+  c_{i,\text{corrupción}} \,\bigr),
+\end{equation}
+de modo que se cumple la descomposición aditiva
+\begin{equation}
+  L_i \;=\; \sum_{k=1}^{6} c_{i,k} \;+\; D_i,
+  \label{eq:descomposicion}
+\end{equation}
+donde $D_i$ denota el componente no explicado por los seis indicadores. La
+composición relativa $c_{i,k}\big/\sum_{k} c_{i,k}$ permite comparar recetas entre
+países con distintos niveles de $L_i$.
+
+\textbf{Advertencia inferencial.} Las contribuciones $c_{i,k}$ son componentes
+aditivos de una descomposición estadística del \emph{World Happiness Report}; las
+asociaciones observadas entre dichos componentes y $L_i$ no implican causalidad.
+
+% ---------------- 4 ----------------
+\section{Definición de las variables}
+
+Cada variable se define tal como aparece en el archivo oficial
+\texttt{WHR24\_Data\_Figure\_2.1.xls} (\emph{Data for Figure 2.1}, \emph{World
+Happiness Report} 2024). Se emplean las notaciones $L_i$, $c_{i,k}$ y $D_i$
+introducidas en la sección~3.
+
+\subsection{Variable de interés}
+
+\begin{description}[style=nextline, leftmargin=1.7em, itemsep=0.35em]
+  \item[\texttt{Ladder score} ($L_i$)] Evaluación de vida promedio reportada por
+    los habitantes de cada país en la escala Cantril del \emph{World Happiness
+    Report}: valores de 0 (peor vida posible) a 10 (mejor vida posible), a partir
+    de las encuestas Gallup 2021--2023. Es la variable a la que la pregunta alude
+    como «evaluación de vida» y el criterio de orden para definir los países «con
+    mayor y menor bienestar». Rango observado en 2024: 1{,}72 (Afganistán) a
+    7{,}74 (Finlandia).
+\end{description}
+
+\subsection{Los seis indicadores de la receta}
+
+Cada columna \texttt{Explained by: X} corresponde a la \textbf{contribución} del
+factor respectivo al \emph{ladder score} del país, expresada en puntos de la misma
+escala 0--10; la suma de los seis componentes más el residual reconstruye $L_i$
+(ec.~\ref{eq:descomposicion}). No se trata de porcentajes ni de puntajes
+independientes.
+
+\begin{description}[style=nextline, leftmargin=2.6em, itemsep=0.35em]
+  \item[\texttt{Log GDP per capita} ($c_{i,\text{PIB}}$)]
+    Contribución del logaritmo natural del PIB per cápita en paridad de poder de
+    compra. Dimensión~1 de la receta.
+  \item[\texttt{Social support} ($c_{i,\text{social}}$)]
+    Contribución del apoyo social: proporción de personas con familiares o amigos
+    de confianza a quienes acudir en momentos de necesidad. Dimensión~2.
+  \item[\texttt{Healthy life expectancy} ($c_{i,\text{vida}}$)]
+    Contribución de la esperanza de vida saludable al nacer, en años ajustados por
+    discapacidad (GBD). Dimensión~3.
+  \item[\texttt{Freedom to make life choices} ($c_{i,\text{libertad}}$)]
+    Contribución de la libertad percibida para tomar decisiones de vida.
+    Dimensión~4.
+  \item[\texttt{Generosity} ($c_{i,\text{generosidad}}$)]
+    Contribución de la generosidad: correlación ajustada por ingreso entre
+    donaciones benéficas recientes (último mes) y PIB per cápita. Dimensión~5.
+  \item[\texttt{Perceptions of corruption} ($c_{i,\text{corrupción}}$)]
+    Contribución de la percepción de corrupción (gobierno y empresas): un valor
+    más alto indica menor percepción de corrupción y, por tanto, mayor
+    contribución. Dimensión~6.
+\end{description}
+
+\subsection{Componente no explicado}
+
+\begin{description}[style=nextline, leftmargin=2.6em, itemsep=0.35em]
+  \item[\texttt{Dystopia + residual} ($D_i$)]
+    Suma de la puntuación de \emph{Distopía} ---país hipotético con los valores
+    mínimos observados de los seis factores, usado como referencia--- y del
+    residual no explicado: la parte del \emph{ladder score} que los seis
+    indicadores no alcanzan a cubrir. Constituye el eje de la subpregunta~2:
+    valores elevados señalan países cuyo bienestar queda fuera de la explicación
+    estándar.
+\end{description}
+
+\subsection{Variables de contexto}
+
+\begin{description}[style=nextline, leftmargin=2.6em, itemsep=0.35em]
+  \item[\texttt{Country name}]
+    Nombre del país ($n = 143$ observaciones). Se emplea para identificación y
+    anotaciones en los gráficos; no es una variable numérica.
+  \item[\texttt{upperwhisker}, \texttt{lowerwhisker}]
+    Extremos del intervalo de confianza al 95\% de $L_i$. Se usan como bandas de
+    incertidumbre de referencia; no integran la receta.
+\end{description}
+
+\textbf{Valores faltantes.} Tres países (Bahrain, Tajikistan y State of Palestine)
+presentan faltantes en los seis indicadores y en $D_i$, aunque sí disponen de
+$L_i$. Se conservan en el conjunto de datos y se excluyen de manera explícita
+únicamente en las visualizaciones que requieran valores completos, documentando
+dicho filtro.
+
+% ---------------- 5 ----------------
+\section{Tabla resumen de variables}
+
+\begin{table}[htbp]
+\centering
+\caption{Variables del archivo oficial y su uso en el análisis.}
+\label{tab:variables}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.9cm}
+                >{\raggedright\arraybackslash}p{4.7cm}
+                >{\raggedright\arraybackslash}p{5.1cm}}
+\toprule
+\textbf{Variable (archivo oficial)} & \textbf{Significado} & \textbf{Uso previsto} \\
+\midrule
+\texttt{Country name} & País & Identificación y anotaciones \\
+\texttt{Ladder score} ($L_i$) & Evaluación de vida (0--10) & Variable de interés; eje de orden \\
+\texttt{upperwhisker}, \texttt{lowerwhisker} & Intervalo de confianza de $L_i$ & Bandas de incertidumbre \\
+\texttt{Explained by: Log GDP per capita} & Contribución del PIB per cápita & Dimensión~1 de la receta \\
+\texttt{Explained by: Social support} & Contribución del apoyo social & Dimensión~2 \\
+\texttt{Explained by: Healthy life expectancy} & Contribución de la esperanza de vida saludable & Dimensión~3 \\
+\texttt{Explained by: Freedom to make life choices} & Contribución de la libertad & Dimensión~4 \\
+\texttt{Explained by: Generosity} & Contribución de la generosidad & Dimensión~5 \\
+\texttt{Explained by: Perceptions of corruption} & Contribución de la percepción de corrupción & Dimensión~6 \\
+\texttt{Dystopia + residual} ($D_i$) & Componente no explicado & Eje de la subpregunta~2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Criterio de selección.} Se emplean las variables numéricas disponibles en
+el archivo oficial. No se construirán indicadores derivados, salvo la
+clasificación en terciles del \emph{ladder score} (\texttt{pandas.qcut},
+\texttt{q = 3}), cuyo criterio se documentará en el notebook.
+
+% ---------------- 6 ----------------
+\section{Plan de visualizaciones}
+
+\begin{table}[htbp]
+\centering
+\caption{Anteproyecto de visualizaciones: cuatro estáticas (Seaborn) y dos
+interactivas (Plotly), conforme a los requisitos del enunciado.}
+\label{tab:plan}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.0cm}
+                >{\raggedright\arraybackslash}p{7.5cm}
+                >{\raggedright\arraybackslash}p{5.2cm}}
+\toprule
+\textbf{\#} & \textbf{Visualización} & \textbf{Propósito analítico} \\
+\midrule
+Seaborn 1 & Distribución de $L_i$ y de $D_i$ & Forma global y extremos \\
+Seaborn 2 & Diagramas de caja de los seis indicadores por tercil de bienestar & Comparación de recetas \\
+Seaborn 3 & Mapa de calor de la composición relativa por grupo & Perfil de receta \\
+Seaborn 4 & $D_i$ frente a $L_i$ & Componente no explicado \\
+Plotly 1 & Diagrama de dispersión interactivo (tamaño = $D_i$, anotación de países) & Exploración de atípicos \\
+Plotly 2 & Barras \emph{top-15} con selector de indicador y color por tercil & Exploración por dimensión \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------- 7 ----------------
+\section{Coherencia del análisis}
+
+La secuencia de trabajo conserva la coherencia exigida por el enunciado:
+audiencia (unidad de investigación comparativa) $\rightarrow$ pregunta analítica
+(recetas y componente no explicado) $\rightarrow$ variables (seis indicadores,
+residual y \emph{ladder score}) $\rightarrow$ preparación (renombre documentado,
+terciles, manejo de faltantes) $\rightarrow$ visualizaciones (composición por
+grupos, perfiles, residual y atípicos) $\rightarrow$ interpretación escrita tras
+cada visualización $\rightarrow$ conclusiones sustentadas en la evidencia.
+
+\end{document}
